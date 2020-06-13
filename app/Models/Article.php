@@ -2,24 +2,21 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSorts;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
+    use HasSorts;
+
+    public $allowedSorts = ['title', 'content'];
+
     protected $guarded = [];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'id' => 'integer',
+        'id' => 'string',
         'category_id' => 'integer',
         'user_id' => 'integer',
     ];
@@ -34,4 +31,6 @@ class Article extends Model
     {
         return $this->belongsTo(\App\Models\User::class);
     }
+
+
 }
