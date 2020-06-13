@@ -9,8 +9,6 @@ use Illuminate\Support\Str;
 
 class Article extends Model
 {
-    use HasSorts;
-
     public $allowedSorts = ['title', 'content'];
 
     protected $guarded = [];
