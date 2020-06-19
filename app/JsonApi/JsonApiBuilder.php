@@ -61,13 +61,13 @@ class JsonApiBuilder
     {
         return function () {
             foreach (request('filter',[]) as $filter => $value){
-                if($filter === 'year') {
-                    $this->whereYear('created_at', $value);
-                } else if ($filter === 'month') {
-                    $this->whereMonth('created_at',$value);
-                } else {
-                    $this->where($filter, 'LIKE', "%{$value}%");
-                }
+                $scope = "scope".ucfirst($filter);
+                abort_unless(
+                    $this->hasNamedScope($scope),
+                    400,
+                    "The filter '{$filter}' is not allowed"
+                );
+                $this->model->{$filter}($value);
             }
             return $this;
         };
