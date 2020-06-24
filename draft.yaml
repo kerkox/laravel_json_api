@@ -1,12 +1,13 @@
 models:
-  Article:
-    title: string
-    slug: string unique
-    content: longtext
-    category_id: id
+  inventory:
+    description: string
     user_id: id
-  Category:
-    name: string
-    slug: string unique
     relationships:
-      hasMany: Article
+      hasMany: stockroom
+  stockroom:
+    description: string
+    relationships:
+      hasMany: item
+  item:
+    description: string
+
