@@ -50,5 +50,13 @@ class Article extends Model
         $query->whereMonth('created_at', $value);
     }
 
+    public function scopeSearch(Builder $query, $values)
+    {
+        foreach(Str::of($values)->explode(' ') as $value) {
+            $query->orWhere('title', 'like', "%{$value}%")
+                ->orWhere('content', 'like', "%{$value}%");
+        }
+    }
+
 
 }
