@@ -4,6 +4,7 @@ namespace Tests\Feature\Articles;
 
 use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class FilterArticlesTest extends TestCase
@@ -12,14 +13,19 @@ class FilterArticlesTest extends TestCase
     /** @test */
     public function can_filter_articles_by_title()
     {
+        $this->withoutExceptionHandling();
        factory(Article::class)->create([
           'title' => 'Aprende Laravel desde cero'
        ]);
        factory(Article::class)->create([
           'title' => 'Other article'
        ]);
-       $url = route('api.v1.articles.index', ['filter[title]' => 'Laravel']);
 
+
+       $url = route('api.v1.articles.index', ['filter[title]' => 'Laravel']);
+        DB::listen(function($db){
+            dump($db->sql);
+        });
        $this->getJson($url)
        ->assertJsonCount(1,'data')
        ->assertSee('Aprende Laravel desde cero')

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\JsonApi;
-
 
 use Illuminate\Support\Str;
 
@@ -61,13 +59,12 @@ class JsonApiBuilder
     {
         return function () {
             foreach (request('filter',[]) as $filter => $value){
-                $scope = "scope".ucfirst($filter);
                 abort_unless(
-                    $this->hasNamedScope($scope),
+                    $this->hasNamedScope($filter),
                     400,
                     "The filter '{$filter}' is not allowed"
                 );
-                $this->model->{$filter}($value);
+                $this->{$filter}($value);
             }
             return $this;
         };

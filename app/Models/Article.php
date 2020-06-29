@@ -32,7 +32,7 @@ class Article extends Model
 
     public function scopeTitle(Builder $query, $value)
     {
-        $query->where('title', 'LIKE', "%{$value}%");
+         $query->where('title', 'like', "%{$value}%");
     }
 
     public function scopeContent(Builder $query, $value)
