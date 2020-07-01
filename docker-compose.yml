@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
     tty: true
     environment:
-      XDEBUG_CONFIG: "remote_host=127.0.0.1"
+      XDEBUG_CONFIG: "remote_host=localhost"
       PHP_IDE_CONFIG: "serverName=localhost"
       SERVICE_NAME: app
       SERVICE_TAGS: dev
@@ -50,6 +50,8 @@ services:
     environment:
       MYSQL_DATABASE: laravel
       MYSQL_ROOT_PASSWORD: password_root
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
