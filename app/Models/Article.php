@@ -19,6 +19,15 @@ class Article extends Model
         'user_id' => 'integer',
     ];
 
+    public function fields()
+    {
+        return [
+            'title' => $this->resource->title,
+            'slug'  => $this->resource->slug,
+            'content' => $this->resource->content,
+        ];
+    }
+
 
     public function category()
     {
