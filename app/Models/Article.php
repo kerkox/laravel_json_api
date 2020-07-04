@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 class Article extends Model
 {
+    public $type = 'articles';
     public $allowedSorts = ['title', 'content'];
 
     protected $guarded = [];
@@ -22,9 +23,9 @@ class Article extends Model
     public function fields()
     {
         return [
-            'title' => $this->resource->title,
-            'slug'  => $this->resource->slug,
-            'content' => $this->resource->content,
+            'title' => $this->title,
+            'slug'  => $this->slug,
+            'content' => $this->content,
         ];
     }
 
