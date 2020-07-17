@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 class Article extends Model
 {
     public $type = 'articles';
-    public $allowedSorts = ['title', 'content'];
 
     protected $guarded = [];
 
