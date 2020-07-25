@@ -3,6 +3,7 @@
 namespace Tests\Feature\Articles;
 
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,11 +11,15 @@ class CreateArticlesTest extends TestCase
 {
     use RefreshDatabase;
     /** @test */
-    public function can_create_articles()
+    public function authenticated_users_can_create_articles()
     {
-       $article = factory(Article::class)->raw();
+        $user = factory(User::class)->create();
+
+        $article = array_filter(factory(Article::class)->raw(['user_id' => null]));
 
        $this->assertDatabaseMissing('articles',$article);
+
+       $this->actingAs($user);
 
        $this->jsonApi()->content([
            'data' => [
