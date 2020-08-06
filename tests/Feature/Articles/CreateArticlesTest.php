@@ -160,6 +160,7 @@ class CreateArticlesTest extends TestCase
                'attributes' => $article
            ]
        ])->post(route('api.v1.articles.create'))
+           ->assertSee(trans('validation.no_underscores', ['attribute' => 'slug']))
            ->assertStatus(422)
            ->assertSee("data\/attributes\/slug");
 
@@ -179,6 +180,7 @@ class CreateArticlesTest extends TestCase
                'attributes' => $article
            ]
        ])->post(route('api.v1.articles.create'))
+           ->assertSee(trans('validation.no_starting_dashes', ['attribute' => 'slug']))
            ->assertStatus(422)
            ->assertSee("data\/attributes\/slug");
 
@@ -198,6 +200,7 @@ class CreateArticlesTest extends TestCase
                'attributes' => $article
            ]
        ])->post(route('api.v1.articles.create'))
+           ->assertSee(trans('validation.no_ending_dashes', ['attribute' => 'slug']))
            ->assertStatus(422)
            ->assertSee("data\/attributes\/slug");
 
