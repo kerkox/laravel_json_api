@@ -19,6 +19,11 @@ class Article extends Model
         'user_id' => 'integer',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function fields()
     {
         return [
