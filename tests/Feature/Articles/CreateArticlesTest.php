@@ -127,4 +127,80 @@ class CreateArticlesTest extends TestCase
 
        $this->assertDatabaseMissing('articles', $article);
     }
+
+    /** @test */
+    public function slug_must_only_contain_letters_numbers_and_dashes()
+    {
+       $article = factory(Article::class)->raw(['slug' => 'sa$^^%']);
+
+        Sanctum::actingAs(factory(User::class)->create());
+
+       $this->jsonApi()->content([
+           'data' => [
+               'type' => 'articles',
+               'attributes' => $article
+           ]
+       ])->post(route('api.v1.articles.create'))
+           ->assertStatus(422)
+           ->assertSee("data\/attributes\/slug");
+
+       $this->assertDatabaseMissing('articles', $article);
+    }
+
+    /** @test */
+    public function slug_must_no_contain_underscores()
+    {
+       $article = factory(Article::class)->raw(['slug' => 'with_underscore']);
+
+        Sanctum::actingAs(factory(User::class)->create());
+
+       $this->jsonApi()->content([
+           'data' => [
+               'type' => 'articles',
+               'attributes' => $article
+           ]
+       ])->post(route('api.v1.articles.create'))
+           ->assertStatus(422)
+           ->assertSee("data\/attributes\/slug");
+
+       $this->assertDatabaseMissing('articles', $article);
+    }
+
+    /** @test */
+    public function slug_must_no_start_with_dashes()
+    {
+       $article = factory(Article::class)->raw(['slug' => '-start-with-dash']);
+
+        Sanctum::actingAs(factory(User::class)->create());
+
+       $this->jsonApi()->content([
+           'data' => [
+               'type' => 'articles',
+               'attributes' => $article
+           ]
+       ])->post(route('api.v1.articles.create'))
+           ->assertStatus(422)
+           ->assertSee("data\/attributes\/slug");
+
+       $this->assertDatabaseMissing('articles', $article);
+    }
+
+    /** @test */
+    public function slug_must_no_end_with_dashes()
+    {
+       $article = factory(Article::class)->raw(['slug' => 'ends-with-dash-']);
+
+        Sanctum::actingAs(factory(User::class)->create());
+
+       $this->jsonApi()->content([
+           'data' => [
+               'type' => 'articles',
+               'attributes' => $article
+           ]
+       ])->post(route('api.v1.articles.create'))
+           ->assertStatus(422)
+           ->assertSee("data\/attributes\/slug");
+
+       $this->assertDatabaseMissing('articles', $article);
+    }
 }

@@ -43,7 +43,14 @@ class Validators extends AbstractValidators
         return [
             'title' => ['required'],
             'content' => ['required'],
-            'slug' => ['required', 'unique:articles'],
+            'slug' => [
+                'required',
+                'alpha_dash',
+                'not_regex:/_/',
+                'not_regex:/^-/',
+                'not_regex:/-$/',
+                'unique:articles'
+            ],
         ];
     }
 
