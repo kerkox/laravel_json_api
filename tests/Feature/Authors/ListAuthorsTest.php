@@ -10,6 +10,14 @@ class ListAuthorsTest extends TestCase
 {
     use RefreshDatabase;
     /** @test */
+    public function can_fetch_single_authors()
+    {
+       $author = factory(User::class)->create();
+
+       $this->jsonApi()->get(route('api.v1.authors.read', $author))
+           ->assertSee($author->name);
+    }
+    /** @test */
     public function can_fetch_all_authors()
     {
        $authors = factory(User::class)->times(3)->create();
